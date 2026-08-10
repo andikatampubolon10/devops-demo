@@ -43,6 +43,13 @@ pipeline {
                 sh 'terraform plan'
             }
         }
+
+        stage('Terraform Apply') { 
+            steps { 
+                echo 'Membuat infrastructure dengan Terraform...' 
+                sh 'terraform apply -auto-approve' 
+            } 
+        }
     }
 
     post {
