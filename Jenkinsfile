@@ -16,15 +16,42 @@ pipeline {
             }
         }
 
+        stage('Terraform Version') {
+            steps {
+                echo 'Memeriksa Terraform...'
+                sh 'terraform version'
+            }
+        }
+
+        stage('Docker Check') {
+            steps {
+                echo 'Memeriksa koneksi Docker...'
+                sh 'docker ps'
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                echo 'Menjalankan Terraform Init...'
+                sh 'terraform init'
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                echo 'Menjalankan Terraform Plan...'
+                sh 'terraform plan'
+            }
+        }
     }
 
     post {
         success {
-            echo 'Pipeline berhasil!'
+            echo 'CI Pipeline berhasil!'
         }
 
         failure {
-            echo 'Pipeline gagal!'
+            echo 'CI Pipeline gagal!'
         }
     }
 }

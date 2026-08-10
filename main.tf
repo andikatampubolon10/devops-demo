@@ -7,23 +7,20 @@ terraform {
   }
 }
 
-provider "docker" {}
-
-resource "docker_image" "app" {
-  name = "devops-demo:latest"
-
-  build {
-    context    = "."
-    dockerfile = "Dockerfile"
-  }
+provider "docker" {
+  host = "unix:///var/run/docker.sock"
 }
 
-resource "docker_container" "app" {
-  name  = "devops-demo"
-  image = docker_image.app.image_id
+resource "docker_image" "nginx" {
+  name = "nginx:latest"
+}
+
+resource "docker_container" "nginx" {
+  name  = "my-nginx"
+  image = docker_image.nginx.image_id
 
   ports {
     internal = 80
-    external = 8080
+    external = 8082
   }
 }
