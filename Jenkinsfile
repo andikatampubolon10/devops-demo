@@ -46,8 +46,14 @@ pipeline {
 
         stage('Terraform Apply') { 
             steps { 
-                echo 'Membuat infrastructure dengan Terraform...' 
-                sh 'terraform apply -auto-approve' 
+                                echo 'Membuat infrastructure dengan Terraform...' 
+                                // hapus container lama bernama my-nginx jika ada, agar apply tidak gagal
+                                sh '''
+                                if [ -n "$(docker ps -a --filter \"name=my-nginx\" -q)" ]; then
+                                    docker rm -f $(docker ps -a --filter "name=my-nginx" -q) || true
+                                fi
+                                '''
+                                sh 'terraform apply -auto-approve' 
             } 
         }
     }

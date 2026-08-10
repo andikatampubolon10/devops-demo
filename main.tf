@@ -4,6 +4,10 @@ terraform {
       source  = "kreuzwerker/docker"
       version = "~> 3.0.2"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.5"
+    }
   }
 }
 
@@ -21,7 +25,7 @@ resource "docker_image" "nginx" {
 }
 
 resource "docker_container" "nginx" {
-  name       = "my-nginx"
+  name       = "my-nginx-${random_pet.suffix.id}"
   image      = docker_image.nginx.image_id
   must_run   = true
   start      = true
@@ -31,4 +35,8 @@ resource "docker_container" "nginx" {
     internal = 80
     external = 8082
   }
+}
+
+resource "random_pet" "suffix" {
+  length = 2
 }
