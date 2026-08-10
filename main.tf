@@ -12,7 +12,12 @@ provider "docker" {
 }
 
 resource "docker_image" "nginx" {
-  name = "nginx:latest"
+  name = "devops-demo-nginx:latest"
+
+  build {
+    context    = "."
+    dockerfile = "Dockerfile"
+  }
 }
 
 resource "docker_container" "nginx" {
