@@ -21,8 +21,11 @@ resource "docker_image" "nginx" {
 }
 
 resource "docker_container" "nginx" {
-  name  = "my-nginx"
-  image = docker_image.nginx.image_id
+  name       = "my-nginx"
+  image      = docker_image.nginx.image_id
+  must_run   = true
+  start      = true
+  network_mode = "bridge"
 
   ports {
     internal = 80
